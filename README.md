@@ -1,14 +1,13 @@
 # HilbertAI README
 
-"HilbertAI" is a ChatGPT VS Code extension to which uses `gpt3.5-turbo` model optimize your code.
+A ChatGPT VS Code extension
 
 ## Features
+*HilbertAI* uses `gpt3.5-turbo` model under the hood to optimize your code.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-![Hilbert AI](./images/hilbert.jpeg)
+<p align="center">
+  <img src="././images/hilbert.jpeg" alt="Hilbert AI" height="200" width="200">
+</p>
 
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
