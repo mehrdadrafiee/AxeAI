@@ -24,7 +24,7 @@ async function sendContentToChatGPT(): Promise<void> {
   const content = document.getText();
   const openaiEndpoint = 'https://api.openai.com/v1/chat/completions';
 
-  const generateMessage = (firstCall: boolean, content: string, continuation: string): Message[] => {
+  const generateMessages = (firstCall: boolean, content: string, continuation: string): Message[] => {
     return [{
       role: 'system',
       content: 'You are a code optimizer'
@@ -37,7 +37,6 @@ async function sendContentToChatGPT(): Promise<void> {
   try {
     await vscode.window.withProgress({
       location: vscode.ProgressLocation.Notification,
-      // title: 'Optimizing code...',
       cancellable: false
     }, async (progress: vscode.Progress<{ message?: string }>) => {
       progress.report({ message: 'Optimizing your code... 🪄' });
@@ -55,7 +54,7 @@ async function sendContentToChatGPT(): Promise<void> {
       }
 
       let response: AxiosResponse<CompletionResponse> = await <any>axios.post(openaiEndpoint, {
-        messages: generateMessage(true, content, ''),
+        messages: generateMessages(true, content, ''),
         ...requestOptions
       }, {
         headers: { ...requestHeaders }
@@ -67,7 +66,7 @@ async function sendContentToChatGPT(): Promise<void> {
       while (response.data.choices[0].finish_reason !== 'stop') {
         const continuation = completeResponse;
         const nextResponse: AxiosResponse<CompletionResponse> = await axios.post(openaiEndpoint, {
-          messages: generateMessage(false, content, continuation),
+          messages: generateMessages(false, content, continuation),
           ...requestOptions
         }, {
           headers: { ...requestHeaders }
@@ -82,17 +81,21 @@ async function sendContentToChatGPT(): Promise<void> {
       const extractedContent = codeMatches.map(match => match[1]).join('\n\n');
 
       // Replace the content of the current file with the optimized code
-      editor.edit(editBuilder => {
-        const start = new vscode.Position(0, 0);
-        const end = document.lineAt(document.lineCount - 1).range.end;
-        const range = new vscode.Range(start, end);
+      const start = new vscode.Position(0, 0);
+      const end = document.lineAt(document.lineCount - 1).range.end;
+      const range = new vscode.Range(start, end);
+      editor.edit((editBuilder) => {
         editBuilder.replace(range, extractedContent);
       });
 
-      vscode.window.showInformationMessage('Your code has been optimized successfully!');
+      if (start === end) {
+        vscode.window.showErrorMessage('Something went wrong! Please try again.');
+      } else {
+        vscode.window.showInformationMessage('Your code has been optimized successfully!');
+      }
     });
   } catch (error) {
-    vscode.window.showErrorMessage('Failed to optimize your code.');
+    vscode.window.showErrorMessage('Failed to optimize your code. Please try again.');
     console.error(error);
   }
 }
