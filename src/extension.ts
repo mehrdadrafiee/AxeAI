@@ -9,8 +9,15 @@ interface Message {
   content: string;
 }
 
+interface Usage {
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
+}
+
 interface CompletionResponse {
   choices: [{ message: { content: string }, finish_reason: string }];
+  usage: Usage
 }
 
 // This function sends the content of the current file to the "/api/request" endpoint
@@ -43,7 +50,7 @@ async function sendContentToChatGPT(): Promise<void> {
 
       const requestOptions = {
         max_tokens: 200,
-        temperature: 0.7,
+        temperature: 0.3,
         n: 1,
         model: 'gpt-3.5-turbo',
       };
@@ -88,10 +95,19 @@ async function sendContentToChatGPT(): Promise<void> {
         editBuilder.replace(range, extractedContent);
       });
 
+      const tokensUsed = response.data.usage.total_tokens;
+      const cost = ((tokensUsed * 0.002) / 1000).toFixed(4);
+
+      let vsCodeMessage = `
+        Your code has been optimized successfully!\n\n
+        Total tokens used: ${tokensUsed}.\n\n
+        Total cost: $${cost}
+      `;
+
       if (start === end) {
         vscode.window.showErrorMessage('Something went wrong! Please try again.');
       } else {
-        vscode.window.showInformationMessage('Your code has been optimized successfully!');
+        vscode.window.showInformationMessage(vsCodeMessage);
       }
     });
   } catch (error) {
