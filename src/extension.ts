@@ -1,4 +1,4 @@
-import * as dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 import * as vscode from 'vscode';
 import axios, { AxiosResponse } from 'axios';
 
@@ -46,7 +46,7 @@ async function sendContentToChatGPT(): Promise<void> {
       location: vscode.ProgressLocation.Notification,
       cancellable: false
     }, async (progress: vscode.Progress<{ message?: string }>) => {
-      progress.report({ message: 'Optimizing your code... 🪄' });
+      progress.report({ message: 'Optimizing your code... 🪄 Do NOT switch tabs!' });
 
       const requestOptions = {
         max_tokens: 200,
@@ -58,7 +58,7 @@ async function sendContentToChatGPT(): Promise<void> {
       const requestHeaders = {
         'Authorization': `Bearer ${process.env.CHATGPT_API_KEY}`,
         'Content-Type': 'application/json',
-      }
+      };
 
       let response: AxiosResponse<CompletionResponse> = await <any>axios.post(openaiEndpoint, {
         messages: generateMessages(true, content, ''),
