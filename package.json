@@ -1,8 +1,8 @@
 {
-  "name": "HilbertAI",
+  "name": "AxeAI",
   "publisher": "HilbertAI-LLC",
-  "displayName": "HilbertAI",
-  "description": "Let's ask Hilbert",
+  "displayName": "AxeAI",
+  "description": "Optimize your code with AxeAI",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.78.0"

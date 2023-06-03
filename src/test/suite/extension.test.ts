@@ -5,7 +5,7 @@ import * as extension from '../../../src/extension';
 describe('Extension Tests', () => {
   beforeEach(() => {
     // Activate the extension before each test
-    return vscode.extensions.getExtension('HilbertAI-LLC.HilbertAI')?.activate();
+    return vscode.extensions.getExtension('HilbertAI-LLC.AxeAI')?.activate();
   });
 
   afterEach(() => {
