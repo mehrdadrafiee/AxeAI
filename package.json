@@ -4,6 +4,11 @@
   "displayName": "AxeAI",
   "description": "Optimize your code with AxeAI",
   "version": "0.0.1",
+  "icon": "AxeAI.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mehrdadrafiee/AxeAI.git"
+  },
   "engines": {
     "vscode": "^1.78.0"
   },
