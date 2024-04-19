@@ -3,7 +3,7 @@
 </p>
 
 # AxeAI
-A ChatGPT-based VS Code extension that uses `gpt3.5-turbo` model under the hood to optimize your code.
+A VS Code extension powered by ChatGPT's  `gpt3.5-turbo` model under the hood to optimize your code.
 
 After installing the extension, open any file in your VS Code editor, press `command+shift+p` and then type/select: `Optimize my code`. Please note that you need to add `CHATGPT_API_KEY` variable to your `.env` file.
 
